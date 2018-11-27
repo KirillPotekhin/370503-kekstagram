@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм» [![Build status][travis-image]][travis-url]
 
 * Студент: [Кирилл Потехин](https://up.htmlacademy.ru/javascript/16/user/370503).
-* Наставник: `Неизвестно`.
+* Наставник: [Даниил Оношко](https://htmlacademy.ru/profile/id154426).
 
 ---
 
