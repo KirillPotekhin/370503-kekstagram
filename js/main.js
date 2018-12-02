@@ -4,7 +4,7 @@ var randomInteger = function (min, max) {
   var rand = min + Math.random() * (max + 1 - min);
   rand = Math.floor(rand);
   return rand;
-}
+};
 
 var mockComments = [
   'Всё отлично!',
@@ -47,7 +47,28 @@ var getPhotoDescription = function () {
   return mockPhotoDescription;
 };
 
+var CARDS_OF_NUMBERS = 25;
+
 var userPhotoList = [];
-for (var j = 0; j < 25; j++) {
+for (var j = 0; j < CARDS_OF_NUMBERS; j++) {
   userPhotoList[j] = getPhotoDescription();
 }
+
+var picturesContainer = document.querySelector('.pictures');
+var pictureDescriptionTemplate = document.querySelector('#picture').content.querySelector('.picture');
+
+var renderPictureDescription = function (picture) {
+  var pictureDescriptionElement = pictureDescriptionTemplate.cloneNode(true);
+  pictureDescriptionElement.querySelector('.picture__img').src = picture.url;
+  pictureDescriptionElement.querySelector('.picture__likes').textContent = picture.likes;
+  pictureDescriptionElement.querySelector('.picture__comments').textContent = picture.comments.length;
+
+  return pictureDescriptionElement;
+};
+
+var fragment = document.createDocumentFragment();
+for (var b = 0; b < CARDS_OF_NUMBERS; b++) {
+  fragment.appendChild(renderPictureDescription(userPhotoList[b]));
+}
+
+picturesContainer.appendChild(fragment);
