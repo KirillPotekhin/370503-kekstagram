@@ -6,7 +6,7 @@ var getRandomNumber = function (min, max) {
   return rand;
 };
 
-var сommentSet = [
+var usersComments = [
   'Всё отлично!',
   'В целом всё неплохо. Но не всё.',
   'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
@@ -33,12 +33,12 @@ var getPhotoDescription = function (photoNumber) {
 
   photoDescription.likes = getRandomNumber(15, 200);
 
-  var numberOfComments = getRandomNumber(1, сommentSet.length);
+  var numberOfComments = getRandomNumber(1, usersComments.length);
   var comments = [];
   for (var i = 0; i < numberOfComments; i++) {
     comments[i] = {};
     comments[i].avatar = 'img/avatar-' + getRandomNumber(1, 6) + '.svg';
-    comments[i].message = сommentSet[getRandomNumber(0, сommentSet.length - 1)];
+    comments[i].message = usersComments[getRandomNumber(0, usersComments.length - 1)];
     comments[i].name = names[getRandomNumber(0, names.length - 1)];
   }
   photoDescription.comments = comments;
@@ -48,9 +48,9 @@ var getPhotoDescription = function (photoNumber) {
 
 var CARDS_OF_NUMBERS = 25;
 
-var userPhotos = [];
+var usersPhotos = [];
 for (var j = 0; j < CARDS_OF_NUMBERS; j++) {
-  userPhotos[j] = getPhotoDescription(j + 1);
+  usersPhotos[j] = getPhotoDescription(j + 1);
 }
 
 var picturesContainer = document.querySelector('.pictures');
@@ -67,7 +67,7 @@ var renderPictureDescription = function (picture) {
 
 var fragment = document.createDocumentFragment();
 for (var b = 0; b < CARDS_OF_NUMBERS; b++) {
-  fragment.appendChild(renderPictureDescription(userPhotos[b]));
+  fragment.appendChild(renderPictureDescription(usersPhotos[b]));
 }
 
 picturesContainer.appendChild(fragment);
@@ -75,7 +75,7 @@ picturesContainer.appendChild(fragment);
 var bigPicture = document.querySelector('.big-picture');
 bigPicture.classList.remove('hidden');
 
-var mainPhotoCard = userPhotos[0];
+var mainPhotoCard = usersPhotos[0];
 
 document.querySelector('.big-picture__img').children[0].src = mainPhotoCard.url;
 document.querySelector('.likes-count').textContent = mainPhotoCard.likes;
