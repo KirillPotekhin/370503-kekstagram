@@ -83,7 +83,6 @@ var imgUploadOverlay = imgUploadForm.querySelector('.img-upload__overlay');
 var imgUploadCancel = imgUploadForm.querySelector('.img-upload__cancel');
 
 var ESC_KEYCODE = 27;
-var ENTER_KEYCODE = 13;
 
 var onPopupEscPress = function (evt) {
   if (evt.keyCode === ESC_KEYCODE && evt.target !== document.activeElement) {
@@ -92,17 +91,9 @@ var onPopupEscPress = function (evt) {
   }
 };
 
-var onPopupEnterPress = function (evt) {
-  if (evt.keyCode === ENTER_KEYCODE) {
-    evt.preventDefault();
-  }
-};
-
 var openPopup = function () {
   imgUploadOverlay.classList.remove('hidden');
   document.addEventListener('keydown', onPopupEscPress);
-
-  document.addEventListener('keydown', onPopupEnterPress);
 };
 
 var closePopup = function () {
@@ -123,11 +114,32 @@ var scaleControlValue = imgUploadScale.querySelector('.scale__control--value');
 var scaleControlSmaller = imgUploadScale.querySelector('.scale__control--smaller');
 var scaleControlBigger = imgUploadScale.querySelector('.scale__control--bigger');
 
-
 var effectsList = document.querySelector('.effects__list');
 var effectsPreview = effectsList.querySelectorAll('.effects__preview');
 var imgUploadPreviewWrapper = document.querySelector('.img-upload__preview');
 var imgUploadPreview = imgUploadPreviewWrapper.querySelector('img');
+
+scaleControlBigger.addEventListener('click', function () {
+  scaleControlValue.value = (Math.max(
+      parseInt(scaleControlValue.min, 10),
+      Math.min(
+          parseInt(scaleControlValue.value, 10) + parseInt(scaleControlValue.step, 10),
+          parseInt(scaleControlValue.max, 10)
+      )) + '%'
+  );
+  imgUploadPreview.style.transform = 'scale(' + parseInt(scaleControlValue.value, 10) / 100 + ')';
+});
+
+scaleControlSmaller.addEventListener('click', function () {
+  scaleControlValue.value = (Math.max(
+      parseInt(scaleControlValue.min, 10),
+      Math.min(
+          parseInt(scaleControlValue.value, 10) - parseInt(scaleControlValue.step, 10),
+          parseInt(scaleControlValue.max, 10)
+      )) + '%'
+  );
+  imgUploadPreview.style.transform = 'scale(' + parseInt(scaleControlValue.value, 10) / 100 + ')';
+});
 
 var effectsClasses = [
   'effects__preview--none',
