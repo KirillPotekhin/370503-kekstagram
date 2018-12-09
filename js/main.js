@@ -118,6 +118,12 @@ imgUploadInput.onchange = function () {
   });
 };
 
+var imgUploadScale = document.querySelector('.scale');
+var scaleControlValue = imgUploadScale.querySelector('.scale__control--value');
+var scaleControlSmaller = imgUploadScale.querySelector('.scale__control--smaller');
+var scaleControlBigger = imgUploadScale.querySelector('.scale__control--bigger');
+
+
 var effectsList = document.querySelector('.effects__list');
 var effectsPreview = effectsList.querySelectorAll('.effects__preview');
 var imgUploadPreviewWrapper = document.querySelector('.img-upload__preview');
