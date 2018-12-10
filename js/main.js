@@ -119,24 +119,37 @@ var effectsPreview = effectsList.querySelectorAll('.effects__preview');
 var imgUploadPreviewWrapper = document.querySelector('.img-upload__preview');
 var imgUploadPreview = imgUploadPreviewWrapper.querySelector('img');
 
+var getControlValue = function (value, direction) {
+  var controlValue = 0;
+  if (direction) {
+    controlValue = Math.max(
+        parseInt(value.min, 10),
+        Math.min(
+            parseInt(value.value, 10) + parseInt(value.step, 10),
+            parseInt(value.max, 10)
+        )
+    );
+  } else {
+    controlValue = Math.max(
+        parseInt(value.min, 10),
+        Math.min(
+            parseInt(value.value, 10) - parseInt(value.step, 10),
+            parseInt(value.max, 10)
+        )
+    );
+  }
+
+  return controlValue;
+};
+
 scaleControlBigger.addEventListener('click', function () {
-  scaleControlValue.value = (Math.max(
-      parseInt(scaleControlValue.min, 10),
-      Math.min(
-          parseInt(scaleControlValue.value, 10) + parseInt(scaleControlValue.step, 10),
-          parseInt(scaleControlValue.max, 10)
-      )) + '%'
+  scaleControlValue.value = (getControlValue(scaleControlValue, true) + '%'
   );
   imgUploadPreview.style.transform = 'scale(' + parseInt(scaleControlValue.value, 10) / 100 + ')';
 });
 
 scaleControlSmaller.addEventListener('click', function () {
-  scaleControlValue.value = (Math.max(
-      parseInt(scaleControlValue.min, 10),
-      Math.min(
-          parseInt(scaleControlValue.value, 10) - parseInt(scaleControlValue.step, 10),
-          parseInt(scaleControlValue.max, 10)
-      )) + '%'
+  scaleControlValue.value = (getControlValue(scaleControlValue, false) + '%'
   );
   imgUploadPreview.style.transform = 'scale(' + parseInt(scaleControlValue.value, 10) / 100 + ')';
 });
