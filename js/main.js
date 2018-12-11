@@ -120,8 +120,7 @@ var imgUploadPreviewWrapper = document.querySelector('.img-upload__preview');
 var imgUploadPreview = imgUploadPreviewWrapper.querySelector('img');
 
 var getControlValue = function (value, direction) {
-  var controlValue = 0;
-  controlValue = Math.max(
+  var controlValue = Math.max(
       parseInt(value.min, 10),
       Math.min(
           parseInt(value.value, 10) + (direction ? 1 : -1) * parseInt(value.step, 10),
