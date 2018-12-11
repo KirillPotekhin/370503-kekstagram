@@ -121,23 +121,13 @@ var imgUploadPreview = imgUploadPreviewWrapper.querySelector('img');
 
 var getControlValue = function (value, direction) {
   var controlValue = 0;
-  if (direction) {
-    controlValue = Math.max(
-        parseInt(value.min, 10),
-        Math.min(
-            parseInt(value.value, 10) + parseInt(value.step, 10),
-            parseInt(value.max, 10)
-        )
-    );
-  } else {
-    controlValue = Math.max(
-        parseInt(value.min, 10),
-        Math.min(
-            parseInt(value.value, 10) - parseInt(value.step, 10),
-            parseInt(value.max, 10)
-        )
-    );
-  }
+  controlValue = Math.max(
+      parseInt(value.min, 10),
+      Math.min(
+          parseInt(value.value, 10) + (direction ? 1 : -1) * parseInt(value.step, 10),
+          parseInt(value.max, 10)
+      )
+  );
 
   return controlValue;
 };
