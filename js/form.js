@@ -12,7 +12,7 @@
     document.querySelector('main').insertAdjacentElement('afterbegin', formErrorElement);
   };
 
-  var onLoad = function (response) {
+  var onLoad = function () {
     imgUploadOverlay.classList.add('hidden');
   };
 
