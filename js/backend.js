@@ -30,7 +30,7 @@
     loadProcces('GET', 'https://js.dump.academy/kekstagram/data', undefined, onLoad, onError);
   };
 
-  window.upload = function (onLoad, onError) {
-    loadProcces('POST', 'https://js.dump.academy/kekstagram', 'data', onLoad, onError);
+  window.upload = function (data, onLoad, onError) {
+    loadProcces('POST', 'https://js.dump.academy/kekstagram', data, onLoad, onError);
   };
 })();
