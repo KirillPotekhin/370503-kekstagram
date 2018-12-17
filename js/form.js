@@ -6,6 +6,20 @@
   var imgUploadOverlay = imgUploadForm.querySelector('.img-upload__overlay');
   var imgUploadCancel = imgUploadForm.querySelector('.img-upload__cancel');
 
+  var formErrorTemplate = document.querySelector('#error').content.querySelector('.error');
+  var onError = function () {
+    var formErrorElement = formErrorTemplate.cloneNode(true);
+    document.querySelector('main').insertAdjacentElement('afterbegin', formErrorElement);
+  };
+
+  var onLoad = function () {
+    imgUploadOverlay.classList.add('hidden');
+  };
+
+  imgUploadForm.addEventListener('submit', function (evt) {
+    window.upload(new FormData(imgUploadForm), onLoad, onError);
+    evt.preventDefault();
+  });
 
   var onPopupEscPress = function (evt) {
     if (evt.keyCode === window.data.ESC_KEYCODE && evt.target !== textHashtags && evt.target !== textDescription) {
@@ -223,7 +237,7 @@
 
     for (var r = 0; r < hashtags.length; r++) {
       var hashtagClaimant = hashtags[r].split('');
-      if (symbolHashtag !== hashtagClaimant[0]) {
+      if (symbolHashtag !== hashtagClaimant[0] && hashtagClaimant.length > 0) {
         firstSignHashtagMistake++;
         preventSubmit++;
       } if (symbolHashtag === hashtagClaimant[0] && hashtagClaimant.length < 2) {
