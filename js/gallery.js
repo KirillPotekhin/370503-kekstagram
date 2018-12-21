@@ -48,11 +48,11 @@
     usersPicturesDiscussed.sort(function (first, second) {
       if (parseInt(first.querySelector('.picture__comments').textContent, 10) < parseInt(second.querySelector('.picture__comments').textContent, 10)) {
         return 1;
-      } else if (parseInt(first.querySelector('.picture__comments').textContent, 10) > (parseInt(second.querySelector('.picture__comments').textContent, 10))) {
-        return -1;
-      } else {
-        return 0;
       }
+      if (parseInt(first.querySelector('.picture__comments').textContent, 10) > (parseInt(second.querySelector('.picture__comments').textContent, 10))) {
+        return -1;
+      }
+      return 0;
     });
 
     var getDesiredChildren = function (array) {
