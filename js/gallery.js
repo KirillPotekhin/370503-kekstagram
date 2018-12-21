@@ -77,50 +77,24 @@
       firstElement.classList.add('img-filters__button--active');
     };
 
-    var lastTimeout;
-    var DEBOUNCE_INTERVAL = 500;
-
-    // window.debounce = function (cb) {
-    //   if (lastTimeout) {
-    //     window.clearTimeout(lastTimeout);
-    //   }
-    //   lastTimeout = window.setTimeout(cb, DEBOUNCE_INTERVAL);
-    // };
-
     filterPopular.addEventListener('click', function () {
       if (!filterPopular.classList.contains('img-filters__button--active')) {
         addRequiredClass(filterPopular, filterNew, filterDiscussed);
-        if (lastTimeout) {
-          window.clearTimeout(lastTimeout);
-        }
-        lastTimeout = window.setTimeout(function () {
-          getDesiredChildren(usersPicturesGeneralList);
-        }, DEBOUNCE_INTERVAL);
-        // window.debounce(getDesiredChildren(usersPicturesGeneralList));
+        window.debounce(getDesiredChildren.bind(null, usersPicturesGeneralList));
       }
     });
 
     filterNew.addEventListener('click', function () {
       if (!filterNew.classList.contains('img-filters__button--active')) {
         addRequiredClass(filterNew, filterPopular, filterDiscussed);
-        if (lastTimeout) {
-          window.clearTimeout(lastTimeout);
-        }
-        lastTimeout = window.setTimeout(function () {
-          getDesiredChildren(usersPicturesNewList);
-        }, DEBOUNCE_INTERVAL);
+        window.debounce(getDesiredChildren.bind(null, usersPicturesNewList));
       }
     });
 
     filterDiscussed.addEventListener('click', function () {
       if (!filterDiscussed.classList.contains('img-filters__button--active')) {
         addRequiredClass(filterDiscussed, filterPopular, filterNew);
-        if (lastTimeout) {
-          window.clearTimeout(lastTimeout);
-        }
-        lastTimeout = window.setTimeout(function () {
-          getDesiredChildren(usersPicturesDiscussed);
-        }, DEBOUNCE_INTERVAL);
+        window.debounce(getDesiredChildren.bind(null, usersPicturesDiscussed));
       }
     });
 
