@@ -56,7 +56,25 @@
     document.removeEventListener('keydown', onPopupEscPress);
   };
 
+  var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+
   imgUploadInput.onchange = function () {
+    var file = imgUploadInput.files[0];
+    var fileName = file.name.toLowerCase();
+
+    var matches = FILE_TYPES.some(function (it) {
+      return fileName.endsWith(it);
+    });
+
+    if (matches) {
+      var reader = new FileReader();
+
+      reader.addEventListener('load', function () {
+        imgUploadPreview.src = reader.result;
+      });
+
+      reader.readAsDataURL(file);
+    }
     imgUploadPreview.style.transform = 'scale(1)';
     imgUploadPreview.classList.add('effects__preview--none');
     imgUploadPreview.style.filter = 'none';
