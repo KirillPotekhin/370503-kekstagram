@@ -2,7 +2,6 @@
 
 (function () {
   window.gallery = {};
-  // window.gallery.usersPhotos = [];
   var CARDS_OF_NUMBERS = 25;
 
   var picturesContainer = document.querySelector('.pictures');
@@ -21,10 +20,8 @@
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < CARDS_OF_NUMBERS; i++) {
       fragment.appendChild(renderPictureDescription(usersPhotos[i]));
-      // window.gallery.usersPhotos[i] = usersPhotos[i];
     }
     picturesContainer.appendChild(fragment);
-    // window.gallery.picturesContainer = picturesContainer;
     var usersPictures = picturesContainer.querySelectorAll('.picture');
     for (var j = 0; j < usersPictures.length; j++) {
       window.preview.addOnUsersPhotoClick(usersPictures[j], usersPhotos[j]);
@@ -39,7 +36,6 @@
     var filterDiscussed = imgFiltersForm.querySelector('#filter-discussed');
 
     var usersPicturesGeneralList = Array.prototype.slice.call(usersPictures);
-    // window.gallery.usersPicturesGeneralList = usersPicturesGeneralList;
 
     var usersPicturesGeneralListCopy = usersPicturesGeneralList.slice();
     var CARDS_NEW = 10;
@@ -47,10 +43,8 @@
     for (var k = 0; k < CARDS_NEW; k++) {
       usersPicturesNewList.push((usersPicturesGeneralListCopy.splice((window.data.getRandomNumber(0, usersPicturesGeneralListCopy.length - 1)), 1))[0]);
     }
-    // window.gallery.usersPicturesNewList = usersPicturesNewList;
 
     var usersPicturesDiscussed = usersPicturesGeneralList.slice();
-    // window.gallery.usersPicturesDiscussed = usersPicturesDiscussed;
     usersPicturesDiscussed.sort(function (first, second) {
       if (parseInt(first.querySelector('.picture__comments').textContent, 10) < parseInt(second.querySelector('.picture__comments').textContent, 10)) {
         return 1;
@@ -61,10 +55,15 @@
       }
     });
 
-    var getRemoveChildren = function () {
+    var getDesiredChildren = function (array) {
       usersPictures = picturesContainer.querySelectorAll('.picture');
+
       for (var l = 0; l < usersPictures.length; l++) {
         picturesContainer.removeChild(usersPictures[l]);
+      }
+
+      for (var m = 0; m < array.length; m++) {
+        picturesContainer.appendChild(array[m]);
       }
     };
 
@@ -78,32 +77,50 @@
       firstElement.classList.add('img-filters__button--active');
     };
 
+    var lastTimeout;
+    var DEBOUNCE_INTERVAL = 500;
+
+    // window.debounce = function (cb) {
+    //   if (lastTimeout) {
+    //     window.clearTimeout(lastTimeout);
+    //   }
+    //   lastTimeout = window.setTimeout(cb, DEBOUNCE_INTERVAL);
+    // };
+
     filterPopular.addEventListener('click', function () {
       if (!filterPopular.classList.contains('img-filters__button--active')) {
         addRequiredClass(filterPopular, filterNew, filterDiscussed);
-        for (var m = 0; m < usersPicturesGeneralList.length; m++) {
-          picturesContainer.appendChild(usersPicturesGeneralList[m]);
+        if (lastTimeout) {
+          window.clearTimeout(lastTimeout);
         }
+        lastTimeout = window.setTimeout(function () {
+          getDesiredChildren(usersPicturesGeneralList);
+        }, DEBOUNCE_INTERVAL);
+        // window.debounce(getDesiredChildren(usersPicturesGeneralList));
       }
     });
 
     filterNew.addEventListener('click', function () {
       if (!filterNew.classList.contains('img-filters__button--active')) {
         addRequiredClass(filterNew, filterPopular, filterDiscussed);
-        getRemoveChildren();
-        for (var n = 0; n < usersPicturesNewList.length; n++) {
-          picturesContainer.appendChild(usersPicturesNewList[n]);
+        if (lastTimeout) {
+          window.clearTimeout(lastTimeout);
         }
+        lastTimeout = window.setTimeout(function () {
+          getDesiredChildren(usersPicturesNewList);
+        }, DEBOUNCE_INTERVAL);
       }
     });
 
     filterDiscussed.addEventListener('click', function () {
       if (!filterDiscussed.classList.contains('img-filters__button--active')) {
         addRequiredClass(filterDiscussed, filterPopular, filterNew);
-        getRemoveChildren();
-        for (var p = 0; p < usersPicturesDiscussed.length; p++) {
-          picturesContainer.appendChild(usersPicturesDiscussed[p]);
+        if (lastTimeout) {
+          window.clearTimeout(lastTimeout);
         }
+        lastTimeout = window.setTimeout(function () {
+          getDesiredChildren(usersPicturesDiscussed);
+        }, DEBOUNCE_INTERVAL);
       }
     });
 
