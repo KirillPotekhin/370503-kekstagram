@@ -25,8 +25,10 @@
 
   var formErrorTemplate = document.querySelector('#error').content.querySelector('.error');
   var onError = function () {
-    var formErrorElement = formErrorTemplate.cloneNode(true);
-    document.querySelector('main').insertAdjacentElement('afterbegin', formErrorElement);
+    var formErrorModal = formErrorTemplate.cloneNode(true);
+    document.querySelector('main').insertAdjacentElement('afterbegin', formErrorModal);
+    formErrorModal = document.querySelector('.error');
+    formErrorModal.style.zIndex = 3;
   };
 
   var onLoad = function () {

@@ -1,26 +1,23 @@
 'use strict';
 
 (function () {
-  var CARDS_OF_NUMBERS = 25;
-  var CARDS_NEW = 10;
-
   window.gallery = {};
 
   var picturesContainer = document.querySelector('.pictures');
   var pictureDescriptionTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
   var renderPictureDescription = function (picture) {
-    var pictureDescriptionElement = pictureDescriptionTemplate.cloneNode(true);
-    pictureDescriptionElement.querySelector('.picture__img').src = picture.url;
-    pictureDescriptionElement.querySelector('.picture__likes').textContent = picture.likes;
-    pictureDescriptionElement.querySelector('.picture__comments').textContent = picture.comments.length;
+    var pictureDescription = pictureDescriptionTemplate.cloneNode(true);
+    pictureDescription.querySelector('.picture__img').src = picture.url;
+    pictureDescription.querySelector('.picture__likes').textContent = picture.likes;
+    pictureDescription.querySelector('.picture__comments').textContent = picture.comments.length;
 
-    return pictureDescriptionElement;
+    return pictureDescription;
   };
 
   var onLoad = function (usersPhotos) {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < CARDS_OF_NUMBERS; i++) {
+    for (var i = 0; i < window.data.CARDS_OF_NUMBERS; i++) {
       fragment.appendChild(renderPictureDescription(usersPhotos[i]));
     }
     picturesContainer.appendChild(fragment);
@@ -42,7 +39,7 @@
     var getUsersPicturesNewList = function () {
       var usersPicturesGeneralListCopy = usersPicturesGeneralList.slice();
       var usersPicturesNewList = [];
-      for (var k = 0; k < CARDS_NEW; k++) {
+      for (var k = 0; k < window.data.CARDS_NEW; k++) {
         usersPicturesNewList.push((usersPicturesGeneralListCopy.splice((window.data.getRandomNumber(0, usersPicturesGeneralListCopy.length - 1)), 1))[0]);
       }
       return usersPicturesNewList;
@@ -71,14 +68,14 @@
       }
     };
 
-    var addRequiredClass = function (firstElement, secondElement, thirdElement) {
-      if (secondElement.classList.contains('img-filters__button--active')) {
-        secondElement.classList.remove('img-filters__button--active');
+    var addRequiredClass = function (firstButton, secondButton, thirdButton) {
+      if (secondButton.classList.contains('img-filters__button--active')) {
+        secondButton.classList.remove('img-filters__button--active');
       }
-      if (thirdElement.classList.contains('img-filters__button--active')) {
-        thirdElement.classList.remove('img-filters__button--active');
+      if (thirdButton.classList.contains('img-filters__button--active')) {
+        thirdButton.classList.remove('img-filters__button--active');
       }
-      firstElement.classList.add('img-filters__button--active');
+      firstButton.classList.add('img-filters__button--active');
     };
 
     filterPopular.addEventListener('click', function () {
