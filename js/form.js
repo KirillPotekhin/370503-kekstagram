@@ -25,10 +25,36 @@
 
   var formErrorTemplate = document.querySelector('#error').content.querySelector('.error');
   var onError = function () {
+    closePopup();
     var formErrorModal = formErrorTemplate.cloneNode(true);
     document.querySelector('main').insertAdjacentElement('afterbegin', formErrorModal);
     formErrorModal = document.querySelector('.error');
+    var formErrorButtons = formErrorModal.querySelectorAll('.error__button');
     formErrorModal.style.zIndex = 3;
+
+    var onFormErrorModalEscPress = function (evt) {
+      if (evt.keyCode === window.data.ESC_KEYCODE) {
+        closeFormErrorModal();
+      }
+    };
+
+    document.addEventListener('keydown', onFormErrorModalEscPress);
+
+    var onCloseFormErrorModal = function () {
+      closeFormErrorModal();
+    };
+
+    document.addEventListener('click', onCloseFormErrorModal);
+
+    formErrorButtons.forEach(function (formErrorButton) {
+      formErrorButton.addEventListener('click', onCloseFormErrorModal);
+    });
+
+    var closeFormErrorModal = function () {
+      document.querySelector('main').removeChild(formErrorModal);
+      document.removeEventListener('keydown', onFormErrorModalEscPress);
+      document.removeEventListener('click', onCloseFormErrorModal);
+    };
   };
 
   var onLoad = function () {
@@ -58,25 +84,8 @@
     document.removeEventListener('keydown', onPopupEscPress);
   };
 
-  var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
-
   imgUploadInput.onchange = function () {
-    var file = imgUploadInput.files[0];
-    var fileName = file.name.toLowerCase();
-
-    var matches = FILE_TYPES.some(function (it) {
-      return fileName.endsWith(it);
-    });
-
-    if (matches) {
-      var reader = new FileReader();
-
-      reader.addEventListener('load', function () {
-        imgUploadPreview.src = reader.result;
-      });
-
-      reader.readAsDataURL(file);
-    }
+    window.preShow.addPreShowImg(imgUploadInput, imgUploadPreview);
     imgUploadPreview.style.transform = 'scale(1)';
     imgUploadPreview.classList.add('effects__preview--none');
     imgUploadPreview.style.filter = 'none';
@@ -298,6 +307,7 @@
       textHashtags.setCustomValidity('Один и тот же хэш-тег не может быть использован дважды');
     } if (numberOfHashtags > 5) {
       textHashtags.setCustomValidity('Нельзя указать больше пяти хэш-тегов');
+      preventSubmit++;
     } if (lengthHashtag) {
       textHashtags.setCustomValidity('Максимальная длина одного хэш-тега 20 символов, включая решётку');
     } if (!preventSubmit) {
