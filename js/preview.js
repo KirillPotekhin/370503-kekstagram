@@ -13,7 +13,6 @@
   var commentsList = document.querySelector('.social__comments');
   var commentsItems = commentsList.querySelectorAll('.social__comment');
 
-  var STEP_COMMENTS = 5;
   var addCommentsShown = function (value) {
     for (var l = counterComments; l < value; l++) {
       commentsItems[l].classList.remove('visually-hidden');
@@ -21,28 +20,28 @@
   };
 
   var onCommentsItemsButtonClick = function () {
-    if ((commentsItems.length - counterComments) <= STEP_COMMENTS) {
+    if ((commentsItems.length - counterComments) <= window.data.STEP_COMMENTS) {
       addCommentsShown(commentsItems.length);
       counterComments += (commentsItems.length - counterComments);
       commentsShown.textContent = counterComments;
       commentsLoader.classList.add('visually-hidden');
-    } else if ((commentsItems.length - counterComments) > STEP_COMMENTS) {
-      addCommentsShown(counterComments + STEP_COMMENTS);
-      counterComments += STEP_COMMENTS;
+    } else if ((commentsItems.length - counterComments) > window.data.STEP_COMMENTS) {
+      addCommentsShown(counterComments + window.data.STEP_COMMENTS);
+      counterComments += window.data.STEP_COMMENTS;
       commentsShown.textContent = counterComments;
     }
   };
 
   var getCommentsItems = function () {
     commentsItems = commentsList.querySelectorAll('.social__comment');
-    if (commentsItems.length <= STEP_COMMENTS) {
+    if (commentsItems.length <= window.data.STEP_COMMENTS) {
       counterComments = commentsItems.length;
       commentsShown.textContent = counterComments;
       commentsLoader.classList.add('visually-hidden');
-    } else if (commentsItems.length > STEP_COMMENTS) {
-      counterComments = STEP_COMMENTS;
+    } else if (commentsItems.length > window.data.STEP_COMMENTS) {
+      counterComments = window.data.STEP_COMMENTS;
       commentsShown.textContent = counterComments;
-      for (var k = STEP_COMMENTS; k < commentsItems.length; k++) {
+      for (var k = window.data.STEP_COMMENTS; k < commentsItems.length; k++) {
         commentsItems[k].classList.add('visually-hidden');
       }
       commentsLoader.classList.remove('visually-hidden');
@@ -50,20 +49,26 @@
     commentsLoader.addEventListener('click', onCommentsItemsButtonClick);
   };
 
+  var lastFocus;
+
   var onBigFotoPopupEscPress = function (evt) {
     if (evt.keyCode === window.data.ESC_KEYCODE) {
       bigPicture.classList.add('hidden');
+      lastFocus.focus();
     }
   };
 
   var openBigFotoPopup = function () {
+    lastFocus = document.activeElement;
     bigPicture.classList.remove('hidden');
+    bigPicture.focus();
     document.addEventListener('keydown', onBigFotoPopupEscPress);
   };
 
   var closeBifFotoPopup = function () {
     bigPicture.classList.add('hidden');
     document.removeEventListener('keydown', onBigFotoPopupEscPress);
+    lastFocus.focus();
   };
 
   window.preview = {
@@ -80,18 +85,18 @@
         commentsCount.textContent = mainPhotoCard.comments.length;
         document.querySelector('.social__caption').textContent = mainPhotoCard.description;
 
-        var renderComments = function (picture) {
-          var renderCommentsElement = document.querySelector('.social__comment').cloneNode(true);
-          renderCommentsElement.querySelector('.social__picture').src = picture.avatar;
-          renderCommentsElement.querySelector('.social__text').textContent = picture.message;
+        var getCollectedComments = function (picture) {
+          var collectedComments = document.querySelector('.social__comment').cloneNode(true);
+          collectedComments.querySelector('.social__picture').src = picture.avatar;
+          collectedComments.querySelector('.social__text').textContent = picture.message;
 
-          return renderCommentsElement;
+          return collectedComments;
         };
 
         var fragment = document.createDocumentFragment();
 
         for (var i = 0; i < mainPhotoCard.comments.length; i++) {
-          fragment.appendChild(renderComments(mainPhotoCard.comments[i]));
+          fragment.appendChild(getCollectedComments(mainPhotoCard.comments[i]));
         }
 
         for (var j = 0; j < commentsItems.length; j++) {
