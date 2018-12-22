@@ -272,17 +272,17 @@
     var preventSubmit = 0;
 
     for (var r = 0; r < hashtags.length; r++) {
-      var hashtagClaimant = hashtags[r].split('');
-      if (symbolHashtag !== hashtagClaimant[0] && hashtagClaimant.length > 0) {
+      var hashtagsClaimants = hashtags[r].split('');
+      if (symbolHashtag !== hashtagsClaimants[0] && hashtagsClaimants.length > 0) {
         firstSignHashtagMistake++;
         preventSubmit++;
-      } if (symbolHashtag === hashtagClaimant[0] && hashtagClaimant.length < 2) {
+      } if (symbolHashtag === hashtagsClaimants[0] && hashtagsClaimants.length < 2) {
         lengthHashtagMistake++;
         preventSubmit++;
-      } if (symbolHashtag === hashtagClaimant[0] && hashtagClaimant.sort()[0] === hashtagClaimant.sort()[1]) {
+      } if (symbolHashtag === hashtagsClaimants[0] && hashtagsClaimants.sort()[0] === hashtagsClaimants.sort()[1]) {
         duplicateSymbolHashtag++;
         preventSubmit++;
-      } if (hashtagClaimant.length > 20) {
+      } if (hashtagsClaimants.length > 20) {
         lengthHashtag++;
         preventSubmit++;
       }
