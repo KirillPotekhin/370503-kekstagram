@@ -23,14 +23,13 @@
   var effectLevelDepth = imgUploadEffectLevel.querySelector('.effect-level__depth');
   var currentFilterType = {};
 
-  var formErrorTemplate = document.querySelector('#error').content.querySelector('.error');
   var onError = function () {
-    var formErrorElement = formErrorTemplate.cloneNode(true);
-    document.querySelector('main').insertAdjacentElement('afterbegin', formErrorElement);
+    closePopup();
+    window.errorModal.addErrorModalForm();
   };
 
   var onLoad = function () {
-    imgUploadOverlay.classList.add('hidden');
+    closePopup();
   };
 
   imgUploadForm.addEventListener('submit', function (evt) {
@@ -40,7 +39,7 @@
   });
 
   var onPopupEscPress = function (evt) {
-    if (evt.keyCode === window.data.ESC_KEYCODE && evt.target !== textHashtags && evt.target !== textDescription) {
+    if (evt.keyCode === window.data.ESC_KEYCODE && evt.target !== window.validation.textHashtags && evt.target !== window.validation.textDescription) {
       imgUploadOverlay.classList.add('hidden');
       imgUploadForm.reset();
     }
@@ -56,25 +55,8 @@
     document.removeEventListener('keydown', onPopupEscPress);
   };
 
-  var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
-
   imgUploadInput.onchange = function () {
-    var file = imgUploadInput.files[0];
-    var fileName = file.name.toLowerCase();
-
-    var matches = FILE_TYPES.some(function (it) {
-      return fileName.endsWith(it);
-    });
-
-    if (matches) {
-      var reader = new FileReader();
-
-      reader.addEventListener('load', function () {
-        imgUploadPreview.src = reader.result;
-      });
-
-      reader.readAsDataURL(file);
-    }
+    window.preShow.addPreShowImg(imgUploadInput, imgUploadPreview);
     imgUploadPreview.style.transform = 'scale(1)';
     imgUploadPreview.classList.add('effects__preview--none');
     imgUploadPreview.style.filter = 'none';
@@ -182,12 +164,12 @@
 
   var addFilterOnImg = function (proportionValue) {
     var totalValue = currentFilterType.min + (currentFilterType.max - currentFilterType.min) * proportionValue;
+    imgUploadPreview.style.filter = currentFilterType.type + '(' + totalValue + currentFilterType.units + ')';
+    imgUploadEffectLevel.classList.remove('hidden');
+
     if (currentFilterType.type === 'none') {
       imgUploadPreview.style.filter = currentFilterType.type;
       imgUploadEffectLevel.classList.add('hidden');
-    } else {
-      imgUploadPreview.style.filter = currentFilterType.type + '(' + totalValue + currentFilterType.units + ')';
-      imgUploadEffectLevel.classList.remove('hidden');
     }
   };
 
@@ -243,67 +225,9 @@
     document.addEventListener('mouseup', onMouseUp);
   });
 
-  var imgUploadText = document.querySelector('.img-upload__text');
-  var textHashtags = imgUploadText.querySelector('.text__hashtags');
-  var textDescription = imgUploadText.querySelector('.text__description');
   var imgUploadSubmit = imgUploadForm.querySelector('.img-upload__submit');
 
-  var getCustomValidityHashtag = function () {
-    var hashtags = textHashtags.value.split(' ');
-
-    var symbolHashtag = '#';
-    var firstSignHashtagMistake = 0;
-    var lengthHashtagMistake = 0;
-    var duplicateSymbolHashtag = 0;
-    var duplicateHashtag = 0;
-    var numberOfHashtags = hashtags.length;
-    var lengthHashtag = 0;
-    var preventSubmit = 0;
-
-    for (var r = 0; r < hashtags.length; r++) {
-      var hashtagClaimant = hashtags[r].split('');
-      if (symbolHashtag !== hashtagClaimant[0] && hashtagClaimant.length > 0) {
-        firstSignHashtagMistake++;
-        preventSubmit++;
-      } if (symbolHashtag === hashtagClaimant[0] && hashtagClaimant.length < 2) {
-        lengthHashtagMistake++;
-        preventSubmit++;
-      } if (symbolHashtag === hashtagClaimant[0] && hashtagClaimant.sort()[0] === hashtagClaimant.sort()[1]) {
-        duplicateSymbolHashtag++;
-        preventSubmit++;
-      } if (hashtagClaimant.length > 20) {
-        lengthHashtag++;
-        preventSubmit++;
-      }
-    }
-
-    for (var s = 0; s < hashtags.length - 1; s++) {
-      for (var t = 1; t < hashtags.length; t++) {
-        if (hashtags[s].toLowerCase() === hashtags[t].toLowerCase() && s !== t) {
-          duplicateHashtag++;
-          preventSubmit++;
-        }
-      }
-    }
-
-    if (firstSignHashtagMistake) {
-      textHashtags.setCustomValidity('Хэш-тег должен начинаться с символа # (решётка)');
-    } if (lengthHashtagMistake) {
-      textHashtags.setCustomValidity('Хеш-тег не может состоять только из одной решётки');
-    } if (duplicateSymbolHashtag) {
-      textHashtags.setCustomValidity('Хэш-теги разделяются пробелами');
-    } if (duplicateHashtag) {
-      textHashtags.setCustomValidity('Один и тот же хэш-тег не может быть использован дважды');
-    } if (numberOfHashtags > 5) {
-      textHashtags.setCustomValidity('Нельзя указать больше пяти хэш-тегов');
-    } if (lengthHashtag) {
-      textHashtags.setCustomValidity('Максимальная длина одного хэш-тега 20 символов, включая решётку');
-    } if (!preventSubmit) {
-      textHashtags.setCustomValidity('');
-    }
-  };
-
   imgUploadSubmit.addEventListener('click', function () {
-    getCustomValidityHashtag();
+    window.validation.getCustomValidityHashtag();
   });
 })();

@@ -2,29 +2,20 @@
 
 (function () {
   window.data = {
+    CARDS_OF_NUMBERS: 25,
+    CARDS_NEW: 10,
+    STEP_COMMENTS: 5,
+    ESC_KEYCODE: 27,
+    DEBOUNCE_INTERVAL: 500,
+    MAX_LENGTH_HASHTAG: 20,
+    MIN_LENGTH_HASHTAG: 2,
+    MAX_NUMBERS_OF_COMMENTS: 5,
+    MAX_LENGTH_DESCRIPTION: 140,
+    FILE_TYPES: ['gif', 'jpg', 'jpeg', 'png'],
     getRandomNumber: function (min, max) {
       var rand = min + Math.random() * (max + 1 - min);
       rand = Math.floor(rand);
       return rand;
-    },
-    usersComments: [
-      'Всё отлично!',
-      'В целом всё неплохо. Но не всё.',
-      'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
-      'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.',
-      'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
-      'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
-    ],
-    names: [
-      'Иван',
-      'Артем',
-      'Тамара',
-      'Роберт',
-      'Инга',
-      'Малефисента',
-      'Татьяна',
-      'Елизаветта'
-    ],
-    ESC_KEYCODE: 27
+    }
   };
 })();

@@ -34,7 +34,7 @@
 
             <!-- Изначальное состояние поля для загрузки изображения -->
             <fieldset class="img-upload__start">
-              <input type="file" id="upload-file" class="img-upload__input  visually-hidden" name="filename" required>
+              <input type="file" id="upload-file" class="img-upload__input  visually-hidden" name="filename" accept=".gif, .jpg, .jpeg, .png" required>
               <label for="upload-file" class="img-upload__label  img-upload__control">Загрузить</label>
             </fieldset>
 
@@ -135,7 +135,7 @@
     </section>
 
     <!-- Полноэкранный показ изображения -->
-    <section class="big-picture  overlay  hidden">
+    <section class="big-picture  overlay  hidden" tabindex="0">
       <h2 class="big-picture__title  visually-hidden">Просмотр фотографии</h2>
       <div class="big-picture__preview">
 
@@ -238,8 +238,13 @@
 <script src="js/backend.js"></script>
 <script src="js/debounce.js"></script>
 <script src="js/data.js"></script>
+<script src="js/drawing-filter.js"></script>
 <script src="js/gallery.js"></script>
+<script src="js/comments-show.js"></script>
 <script src="js/preview.js"></script>
+<script src="js/error-modal.js"></script>
+<script src="js/pre-show.js"></script>
+<script src="js/validation.js"></script>
 <script src="js/form.js"></script>
 </body>
 </html>
