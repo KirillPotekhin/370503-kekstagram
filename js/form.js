@@ -276,13 +276,13 @@
       if (symbolHashtag !== hashtagsClaimants[0] && hashtagsClaimants.length > 0) {
         firstSignHashtagMistake++;
         preventSubmit++;
-      } if (symbolHashtag === hashtagsClaimants[0] && hashtagsClaimants.length < 2) {
+      } if (symbolHashtag === hashtagsClaimants[0] && hashtagsClaimants.length < window.data.MIN_LANGTH_HASHTAG) {
         lengthHashtagMistake++;
         preventSubmit++;
       } if (symbolHashtag === hashtagsClaimants[0] && hashtagsClaimants.sort()[0] === hashtagsClaimants.sort()[1]) {
         duplicateSymbolHashtag++;
         preventSubmit++;
-      } if (hashtagsClaimants.length > 20) {
+      } if (hashtagsClaimants.length > window.data.MAX_LENGTH_HASHTAG) {
         lengthHashtag++;
         preventSubmit++;
       }
