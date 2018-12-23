@@ -2,7 +2,7 @@
 
 (function () {
   window.errorModal = {
-    errorModalForm: function () {
+    addErrorModalForm: function () {
       var formErrorTemplate = document.querySelector('#error').content.querySelector('.error');
       var formErrorModal = formErrorTemplate.cloneNode(true);
       document.querySelector('main').insertAdjacentElement('afterbegin', formErrorModal);
