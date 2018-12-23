@@ -34,5 +34,5 @@
         document.removeEventListener('click', onCloseFormErrorModal);
       };
     }
-  }
+  };
 })();
