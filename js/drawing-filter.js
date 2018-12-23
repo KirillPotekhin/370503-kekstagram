@@ -25,13 +25,7 @@
 
       var usersPicturesDiscussed = usersPicturesGeneralList.slice();
       usersPicturesDiscussed.sort(function (first, second) {
-        if (parseInt(first.querySelector('.picture__comments').textContent, 10) < parseInt(second.querySelector('.picture__comments').textContent, 10)) {
-          return 1;
-        }
-        if (parseInt(first.querySelector('.picture__comments').textContent, 10) > (parseInt(second.querySelector('.picture__comments').textContent, 10))) {
-          return -1;
-        }
-        return 0;
+        return parseInt(second.querySelector('.picture__comments').textContent, 10) - parseInt(first.querySelector('.picture__comments').textContent, 10);
       });
 
       var getDesiredChildren = function (array) {
