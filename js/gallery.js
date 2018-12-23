@@ -19,12 +19,9 @@
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < window.data.CARDS_OF_NUMBERS; i++) {
       fragment.appendChild(renderPictureDescription(usersPhotos[i]));
+      window.preview.addOnUsersPhotoClick(fragment.lastChild, usersPhotos[i]);
     }
     picturesContainer.appendChild(fragment);
-    var usersPictures = picturesContainer.querySelectorAll('.picture');
-    for (var j = 0; j < usersPictures.length; j++) {
-      window.preview.addOnUsersPhotoClick(usersPictures[j], usersPhotos[j]);
-    }
 
     var imgFilters = document.querySelector('.img-filters');
     imgFilters.classList.remove('img-filters--inactive');
@@ -34,6 +31,7 @@
     var filterNew = imgFiltersForm.querySelector('#filter-new');
     var filterDiscussed = imgFiltersForm.querySelector('#filter-discussed');
 
+    var usersPictures = picturesContainer.querySelectorAll('.picture');
     var usersPicturesGeneralList = Array.prototype.slice.call(usersPictures);
 
     var getUsersPicturesNewList = function () {
