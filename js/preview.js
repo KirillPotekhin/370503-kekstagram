@@ -53,13 +53,15 @@
 
         var fragment = document.createDocumentFragment();
 
-        for (var i = 0; i < mainPhotoCard.comments.length; i++) {
-          fragment.appendChild(getCollectedComments(mainPhotoCard.comments[i]));
-        }
+        var comments = mainPhotoCard.comments;
 
-        for (var j = 0; j < commentsItems.length; j++) {
-          commentsList.removeChild(commentsItems[j]);
-        }
+        comments.forEach(function (comment) {
+          fragment.appendChild(getCollectedComments(comment));
+        });
+
+        Array.from(commentsItems).forEach(function (commentsItem) {
+          commentsList.removeChild(commentsItem);
+        });
 
         commentsList.appendChild(fragment);
 

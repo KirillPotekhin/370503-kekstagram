@@ -25,11 +25,12 @@
 
   var onError = function () {
     closePopup();
-    window.errorModal.addErrorModalForm();
+    window.uploadModal.addUploadModalForm('error');
   };
 
   var onLoad = function () {
     closePopup();
+    window.uploadModal.addUploadModalForm('success');
   };
 
   imgUploadForm.addEventListener('submit', function (evt) {
@@ -158,9 +159,9 @@
     });
   };
 
-  for (var i = 0; i < effectsPreview.length; i++) {
-    addOnImgUploadPreviewClick(effectsPreview[i], effectsClasses[i], effects[i]);
-  }
+  Array.from(effectsPreview).forEach(function (effectPreview, i) {
+    addOnImgUploadPreviewClick(effectPreview, effectsClasses[i], effects[i]);
+  });
 
   var addFilterOnImg = function (proportionValue) {
     var totalValue = currentFilterType.min + (currentFilterType.max - currentFilterType.min) * proportionValue;

@@ -17,29 +17,28 @@
       var lengthHashtag = 0;
       var preventSubmit = 0;
 
-      for (var r = 0; r < hashtags.length; r++) {
-        var hashtagsClaimants = hashtags[r].split('').sort();
-        if (symbolHashtag !== hashtagsClaimants[0] && hashtagsClaimants.length) {
+      hashtags.forEach(function (hashtag) {
+        if (symbolHashtag !== hashtag[0] && hashtag.length) {
           firstSignHashtagMistake++;
           preventSubmit++;
-        } if (symbolHashtag === hashtagsClaimants[0] && hashtagsClaimants.length < window.data.MIN_LENGTH_HASHTAG) {
+        } if (symbolHashtag === hashtag[0] && hashtag.length < window.data.MIN_LENGTH_HASHTAG) {
           lengthHashtagMistake++;
           preventSubmit++;
-        } if (symbolHashtag === hashtagsClaimants[0] && hashtagsClaimants[0] === hashtagsClaimants[1]) {
+        } if (symbolHashtag === hashtag[0] && hashtag.indexOf(symbolHashtag, 1) > 0) {
           duplicateSymbolHashtag++;
           preventSubmit++;
-        } if (hashtagsClaimants.length > window.data.MAX_LENGTH_HASHTAG) {
+        } if (hashtag.length > window.data.MAX_LENGTH_HASHTAG) {
           lengthHashtag++;
           preventSubmit++;
         }
-      }
+      });
 
-      for (var i = 0; i < hashtags.length; i++) {
-        if (hashtags.includes(hashtags[i], [i + 1])) {
+      hashtags.forEach(function (hashtag, i) {
+        if (hashtags.includes(hashtag, i + 1)) {
           duplicateHashtag++;
           preventSubmit++;
         }
-      }
+      });
 
       if (firstSignHashtagMistake) {
         window.validation.textHashtags.setCustomValidity('Хэш-тег должен начинаться с символа # (решётка)');
