@@ -28,16 +28,16 @@
         return parseInt(second.querySelector('.picture__comments').textContent, 10) - parseInt(first.querySelector('.picture__comments').textContent, 10);
       });
 
-      var getDesiredChildren = function (array) {
+      var getDesiredChildren = function (items) {
         usersPictures = window.gallery.picturesContainer.querySelectorAll('.picture');
 
-        for (var l = 0; l < usersPictures.length; l++) {
-          window.gallery.picturesContainer.removeChild(usersPictures[l]);
-        }
+        Array.from(usersPictures).forEach(function (userPicture) {
+          window.gallery.picturesContainer.removeChild(userPicture);
+        });
 
-        for (var m = 0; m < array.length; m++) {
-          window.gallery.picturesContainer.appendChild(array[m]);
-        }
+        items.forEach(function (item) {
+          window.gallery.picturesContainer.appendChild(item);
+        });
       };
 
       var addRequiredClass = function (firstButton, secondButton, thirdButton) {
